@@ -1,1 +1,21 @@
+server:
+  port: 4040
+  error:
+    include-message: always
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/restoran
+    password: altynbek695
+    username: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
 
+  jwt:
+    secret_key: altynbek
+debug:
+  true

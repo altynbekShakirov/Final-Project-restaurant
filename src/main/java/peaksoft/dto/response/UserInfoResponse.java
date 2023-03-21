@@ -1,2 +1,10 @@
-package peaksoft.dto.response;public class UserInfoResponse {
+package peaksoft.dto.response;
+
+import lombok.Builder;
+
+@Builder
+public record UserInfoResponse(
+        String email,
+        String token
+) {
 }

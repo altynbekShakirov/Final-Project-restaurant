@@ -1,2 +1,4 @@
-package peaksoft.exception;public class AlreadyExistException {
+package peaksoft.exception;
+
+public class AlreadyExistException extends Throwable {
 }

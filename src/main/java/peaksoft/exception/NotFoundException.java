@@ -1,2 +1,4 @@
-package peaksoft.exception;public class NotFound {
+package peaksoft.exception;
+
+public class NotFoundException extends RuntimeException{
 }

@@ -1,2 +1,10 @@
-package peaksoft.dto.response;public record UserRegisterResponse() {
+package peaksoft.dto.response;
+
+import lombok.Builder;
+
+@Builder
+public record UserRegisterResponse(
+        String email,
+        String token
+) {
 }

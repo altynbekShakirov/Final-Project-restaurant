@@ -1,2 +1,6 @@
-package peaksoft.dto.response;public record CategoryResponse() {
+package peaksoft.dto.response;
+
+public record CategoryResponse(
+        String name
+) {
 }

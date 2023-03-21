@@ -1,2 +1,12 @@
-package peaksoft.dto.response;public class RestaurantResponse {
+package peaksoft.dto.response;
+
+import lombok.Builder;
+
+@Builder
+public record RestaurantResponse(
+        String name,
+        String location,
+        String restType,
+        int numberOfEmployees
+) {
 }
