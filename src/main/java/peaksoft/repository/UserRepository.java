@@ -21,5 +21,7 @@ Set<UserResponse>findAllUsers(Long id);
     boolean existsByEmail(String email);
     @Query("select new peaksoft.dto.response.EmployeeResponse(u.id,u.firstName,u.lastName,u.dateOfBirth,u.email,u.phoneNumber,u.experience) from User u where u.restaurant=null ")
     Set<EmployeeResponse> getAllApplications();
+    @Query("select u from User u where u.id=:id")
+    User findByIdQuery(Long id);
 
 }

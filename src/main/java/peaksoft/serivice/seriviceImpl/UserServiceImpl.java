@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
         user.setFirstName(userRequest.firstName());
         user.setLastName(userRequest.lastName());
         user.setPhoneNumber(userRequest.phoneNumber());
-        if (userRequest.experience() <= 3) {
+        if (userRequest.experience() >= 4) {
             user.setRole(Role.CHEF);
         }
-        if (userRequest.experience() <= 1) {
+        if (userRequest.experience() <= 3) {
             user.setRole(Role.WAITER);
         }
-
+        user.setExperience(userRequest.experience());
         user.setRestaurant(restaurantService.findById(restaurantService.findRestaurant().getId()).orElseThrow(()-> new NoSuchElementException("This Restaurant does not exist")));
         userRepository.save(user);
         authenticate(new UserInfoRequest(user.getEmail(), userRequest.password()));

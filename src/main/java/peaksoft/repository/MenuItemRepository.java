@@ -3,6 +3,7 @@ package peaksoft.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import peaksoft.dto.response.MenuItemResponse;
+import peaksoft.dto.response.MenuItemResponseSearch;
 import peaksoft.dto.response.SubcategoryResponse;
 import peaksoft.entity.MenuItem;
 
@@ -21,5 +22,9 @@ public interface MenuItemRepository extends JpaRepository<MenuItem, Long> {
     MenuItem findByName(String name);
     @Query("select mi from MenuItem mi join mi.cheques c WHERE c.id = :chequeId")
     Set<MenuItem> findAllByChequeId(Long chequeId);
+
+    @Query("SELECT new peaksoft.dto.response.MenuItemResponseSearch(c.name,s.name,m.name,m.price) FROM MenuItem  m join  m.subcategory s join s.category c where m.name ilike concat('%',:search,'%') or s.name ilike concat('%',:search,'%') or c.name ILIKE concat('%',:search,'%')")
+    Set<MenuItemResponseSearch> searchBySubcategories(String search);
+
 
 }

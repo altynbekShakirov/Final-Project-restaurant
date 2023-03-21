@@ -7,7 +7,8 @@ public record MenuItemRequest(
         String image,
         BigDecimal price,
         String description,
-        boolean isVegetarian
+        boolean isVegetarian,
+        String subcategory
 
 ) {
 }

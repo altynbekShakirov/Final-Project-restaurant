@@ -6,6 +6,7 @@ import peaksoft.dto.response.MenuItemResponse;
 import peaksoft.dto.response.StopListResponse;
 import peaksoft.entity.StopList;
 
+import java.time.LocalDate;
 import java.util.Set;
 
 public interface StopListRepository extends JpaRepository<StopList, Long> {
@@ -13,4 +14,6 @@ public interface StopListRepository extends JpaRepository<StopList, Long> {
     StopListResponse getByStopListId(Long id);
     @Query("select new peaksoft.dto.response.StopListResponse(s.reason,s.date,s.menuItem.name)from  StopList s")
     Set<StopListResponse> getAll();
+    @Query("select count(*) from StopList s where s.date =:date and upper(s.menuItem.name) like upper(:menuItemName)")
+    Integer counts(LocalDate date, String menuItemName);
 }

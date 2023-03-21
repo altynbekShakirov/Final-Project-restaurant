@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.dto.request.MenuItemRequest;
 import peaksoft.dto.response.MenuItemResponse;
+import peaksoft.dto.response.MenuItemResponseSearch;
 import peaksoft.dto.response.SimpleResponse;
 import peaksoft.serivice.MenuItemService;
 
@@ -21,7 +22,6 @@ public class MenuItemController {
     public SimpleResponse saveMenu(@RequestBody MenuItemRequest menuItemRequest) {
         return menuItemService.saveMenuItem(menuItemRequest);
     }
-
     @GetMapping
     @PreAuthorize("permitAll()")
     public Set<MenuItemResponse> getAllMenu() {
@@ -55,6 +55,12 @@ public class MenuItemController {
         return menuItemService.filterIsVegeterian();
     }
 
+    @GetMapping("/search")
+    @PreAuthorize("permitAll()")
+    public Set<MenuItemResponseSearch>search(@RequestParam String search){
+        return menuItemService.search(search);
+
+    }
 
 
 }

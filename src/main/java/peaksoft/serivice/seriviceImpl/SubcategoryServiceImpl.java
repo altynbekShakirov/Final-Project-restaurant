@@ -31,7 +31,6 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         Category category = new Category();
         category.setName(subcategoryRequest.name());
         subcategory.setCategory(category);
-        categoryService.saveCategory(new CategoryRequest(category.getName()));
         subcategoryRepository.save(subcategory);
         return new SimpleResponse(HttpStatus.OK, "Successfully saved!");
     }
@@ -54,10 +53,10 @@ public class SubcategoryServiceImpl implements SubcategoryService {
         Category category = new Category();
         category.setName(subcategoryRequest.name());
         subcategory.setCategory(category);
-        categoryService.saveCategory(new CategoryRequest(category.getName()));
         subcategoryRepository.save(subcategory);
         return new SimpleResponse(HttpStatus.OK, "Successfully updated!!");
     }
+//
 //
     @Override
     public SimpleResponse deleteSubcategory(Long id) {
@@ -68,16 +67,21 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     @Override
     public Set<SubcategoryResponse> sort(String ascDesc) {
         try {
+
             switch (ascDesc.toLowerCase()) {
                 case "asc" -> {
+
                     return subcategoryRepository.ascSort();
                 }
                 case "desc" -> {
+
                     return subcategoryRepository.descSort();
+
                 }
                 default -> System.err.println("Select ascending or descending!!");
 
             }
+
 
         } catch (RuntimeException e) {
             throw new RuntimeException(e);

@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "menuItems")
+@Table(name = "menu_items")
 public class MenuItem {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "menu_item_seq")
@@ -33,8 +33,8 @@ public class MenuItem {
     @OneToOne(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true)
     private StopList stopList;
 
-    @OneToMany(mappedBy = "menuItem", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Subcategory> subcategories = new LinkedHashSet<>();
+    @ManyToOne( cascade = CascadeType.ALL )
+    private Subcategory subcategory ;
 
     @ManyToMany(mappedBy = "menuItems", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     private Set<Cheque> cheques = new LinkedHashSet<>();

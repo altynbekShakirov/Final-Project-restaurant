@@ -3,11 +3,11 @@ package peaksoft.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import peaksoft.dto.request.ChequeOfRestaurantAmountDayRequest;
+import peaksoft.dto.request.ChequeOneDayTotalAmountRequest;
 import peaksoft.dto.request.ChequeRequest;
 import peaksoft.dto.request.ChequeUpdateRequest;
-import peaksoft.dto.response.ChequeFinalResponse;
-import peaksoft.dto.response.ChequeResponse;
-import peaksoft.dto.response.SimpleResponse;
+import peaksoft.dto.response.*;
 import peaksoft.serivice.ChequeService;
 
 import java.util.Set;
@@ -42,6 +42,16 @@ public class ChequeController {
     public  SimpleResponse update(@PathVariable Long id, @RequestBody ChequeUpdateRequest chequeUpdateRequest){
         return chequeService.updateCheque(id,chequeUpdateRequest);
     }
+    @GetMapping("/countWaiter")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ChequeOneDayTotalAmountResponse chequeOneDayTotalAmountResponse(@RequestBody ChequeOneDayTotalAmountRequest chequeOneDayTotalAmountRequest){
+        return chequeService.findAllChequesOneDayTotalAmount(chequeOneDayTotalAmountRequest);
+    }
+     @GetMapping("/countRestaurant")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ChequeOfRestaurantAmountDayResponse chequeOfRestaurantAmountDayResponse(@RequestBody ChequeOfRestaurantAmountDayRequest chequeOfRestaurantAmountDayRequest){
+        return chequeService.countRestGrantTotalForDay(chequeOfRestaurantAmountDayRequest);
+     }
 
 
 }

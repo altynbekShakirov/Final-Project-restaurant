@@ -21,12 +21,10 @@ public class Subcategory {
     private Long id;
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "menu_item_id")
-    private MenuItem menuItem;
+    @OneToMany(mappedBy = "subcategory",cascade = CascadeType.ALL)
+    private Set<MenuItem> menuItems = new LinkedHashSet<>();
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "category_id")
     private Category category;
 
 

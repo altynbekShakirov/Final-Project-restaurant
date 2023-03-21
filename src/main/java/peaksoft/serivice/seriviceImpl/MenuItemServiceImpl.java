@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import peaksoft.dto.request.MenuItemRequest;
 import peaksoft.dto.response.MenuItemResponse;
+import peaksoft.dto.response.MenuItemResponseSearch;
 import peaksoft.dto.response.SimpleResponse;
 import peaksoft.entity.MenuItem;
+import peaksoft.entity.Subcategory;
 import peaksoft.repository.MenuItemRepository;
 import peaksoft.repository.RestaurantRepository;
+import peaksoft.repository.SubcategoryRepository;
 import peaksoft.serivice.MenuItemService;
 
 import java.util.NoSuchElementException;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class MenuItemServiceImpl implements MenuItemService {
     private final MenuItemRepository menuItemRepository;
     private  final RestaurantRepository repository;
+    private final SubcategoryRepository subcategoryRepository;
 
     @Override
     public SimpleResponse saveMenuItem(MenuItemRequest menuitemRequest) {
@@ -30,6 +34,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItem.setImage(menuitemRequest.image());
         menuItem.setVegetarian(menuitemRequest.isVegetarian());
         menuItem.setRestaurant(repository.findRestaurant());
+        menuItem.setSubcategory(subcategoryRepository.findByName(menuitemRequest.subcategory()));
         menuItemRepository.save(menuItem);
         return new SimpleResponse(HttpStatus.OK,"Successfully saved!!");
     }
@@ -53,6 +58,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItem.setPrice(menuItemRequest.price());
         menuItem.setImage(menuItemRequest.image());
         menuItem.setVegetarian(menuItemRequest.isVegetarian());
+        menuItem.setSubcategory(subcategoryRepository.findByName(menuItemRequest.subcategory()));
         menuItem.setRestaurant(repository.findRestaurant());
         menuItemRepository.save(menuItem);
         return new SimpleResponse(HttpStatus.OK,"Successfully saved!!");
@@ -76,8 +82,6 @@ public class MenuItemServiceImpl implements MenuItemService {
                     return menuItemRepository.descSort();
                 }
                 default -> System.err.println("Select ascending or descending!!");
-
-
             }
 
         } catch (Exception e) {
@@ -91,6 +95,14 @@ public class MenuItemServiceImpl implements MenuItemService {
         return menuItemRepository.findAllMenu().stream().filter(MenuItemResponse::isVegetarian).collect(Collectors.toSet());
     }
 
+    @Override
+    public Set<MenuItemResponseSearch> search(String search) {
+//        Set<MenuItemResponseSearch>searchSet=new LinkedHashSet<>();
+//
+//        searchSet.addAll(menuItemRepository.searchBySubcategories(search));
+
+        return menuItemRepository.searchBySubcategories(search);
+    }
 
 
 }

@@ -16,4 +16,6 @@ public interface SubcategoryRepository extends JpaRepository<Subcategory, Long> 
     Set<SubcategoryResponse> descSort();
     @Query("select new peaksoft.dto.response.SubcategoryResponse(s.name)from Subcategory s  group by  s.id ")
     Set<SubcategoryResponse>groupBy();
+    @Query("select  s from Subcategory  s where s.name=:name")
+    Subcategory findByName(String name);
 }
