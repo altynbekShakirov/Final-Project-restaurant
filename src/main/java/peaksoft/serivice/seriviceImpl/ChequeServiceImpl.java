@@ -53,23 +53,7 @@ public class ChequeServiceImpl implements ChequeService {
         return chequeRepository.findAllCheque();
     }
 
-//    @Override
-//    public ChequeFinalResponse getById(Long id) {
-//        Cheque cheque = chequeRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Myndai id jok!!!"));
-//        int price = 0;
-//        Set<MenuItem> allByChequeId = menuItemRepository.findAllByChequeId(id);
-//        for (MenuItem menuItem : allByChequeId) {
-//            price += menuItem.getPrice().intValue();
-//
-//        }
-//        int globalTotal = price + (price * cheque.getUser().getRestaurant().getService() / 100);
-//
-//        return new ChequeFinalResponse(cheque.getUser().getFirstName() + " " + cheque
-//                .getUser().getLastName(),
-//                cheque.getMenuItems(), price
-//                , cheque.getUser().getRestaurant().getService(), globalTotal
-//        );
-//    }
+
 
     @Override
     public SimpleResponse updateCheque(Long id, ChequeUpdateRequest chequeRequest) {

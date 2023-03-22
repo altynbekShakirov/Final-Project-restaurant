@@ -27,6 +27,12 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override
     public SimpleResponse saveMenuItem(MenuItemRequest menuitemRequest) {
+        if (menuitemRequest.price().intValue() < 0) {
+            return SimpleResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .message("Price can't be negative number!")
+                    .build();
+        }
         MenuItem  menuItem = new MenuItem();
         menuItem.setName(menuitemRequest.name());
         menuItem.setDescription(menuitemRequest.description());
@@ -34,7 +40,13 @@ public class MenuItemServiceImpl implements MenuItemService {
         menuItem.setImage(menuitemRequest.image());
         menuItem.setVegetarian(menuitemRequest.isVegetarian());
         menuItem.setRestaurant(repository.findRestaurant());
-        menuItem.setSubcategory(subcategoryRepository.findByName(menuitemRequest.subcategory()));
+        if (!subcategoryRepository.existsByName(menuitemRequest.subcategory())){
+            throw new NoSuchElementException("This name: "+menuitemRequest.subcategory()+" does not exist!!");
+        }else {
+            menuItem.setSubcategory(subcategoryRepository.findByName(menuitemRequest.subcategory()));
+
+
+        }
         menuItemRepository.save(menuItem);
         return new SimpleResponse(HttpStatus.OK,"Successfully saved!!");
     }
@@ -53,13 +65,24 @@ public class MenuItemServiceImpl implements MenuItemService {
     @Override
     public SimpleResponse updateMenuItem(Long id, MenuItemRequest menuItemRequest) {
         MenuItem menuItem = menuItemRepository.findById(id).orElseThrow(() -> new NoSuchElementException("This id:"+id+" does not exist"));
+        if (menuItemRequest.price().intValue() < 0) {
+            return SimpleResponse.builder()
+                    .status(HttpStatus.BAD_REQUEST)
+                    .message("Price can't be negative number!")
+                    .build();
+        }
         menuItem.setDescription(menuItemRequest.description());
         menuItem.setName(menuItemRequest.name());
         menuItem.setPrice(menuItemRequest.price());
         menuItem.setImage(menuItemRequest.image());
         menuItem.setVegetarian(menuItemRequest.isVegetarian());
-        menuItem.setSubcategory(subcategoryRepository.findByName(menuItemRequest.subcategory()));
-        menuItem.setRestaurant(repository.findRestaurant());
+        if (!subcategoryRepository.existsByName(menuItemRequest.subcategory())){
+            throw new NoSuchElementException("This name: "+menuItemRequest.subcategory()+" does not exist!!");
+        }else {
+            menuItem.setSubcategory(subcategoryRepository.findByName(menuItemRequest.subcategory()));
+
+
+        }        menuItem.setRestaurant(repository.findRestaurant());
         menuItemRepository.save(menuItem);
         return new SimpleResponse(HttpStatus.OK,"Successfully saved!!");
 

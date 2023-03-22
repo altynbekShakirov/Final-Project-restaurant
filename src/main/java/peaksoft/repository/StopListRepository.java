@@ -15,5 +15,5 @@ public interface StopListRepository extends JpaRepository<StopList, Long> {
     @Query("select new peaksoft.dto.response.StopListResponse(s.reason,s.date,s.menuItem.name)from  StopList s")
     Set<StopListResponse> getAll();
     @Query("select count(*) from StopList s where s.date =:date and upper(s.menuItem.name) like upper(:menuItemName)")
-    Integer counts(LocalDate date, String menuItemName);
+    int counts(LocalDate date, String menuItemName);
 }

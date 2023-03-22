@@ -25,7 +25,8 @@ public record UserRequest(
 //        @NotBlank
         String phoneNumber,
 //        @NotBlank
-        int experience
+        int experience,
+        String role
 
 
 ) {

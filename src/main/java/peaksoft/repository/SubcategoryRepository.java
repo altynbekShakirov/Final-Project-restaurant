@@ -18,4 +18,5 @@ public interface SubcategoryRepository extends JpaRepository<Subcategory, Long> 
     Set<SubcategoryResponse>groupBy();
     @Query("select  s from Subcategory  s where s.name=:name")
     Subcategory findByName(String name);
+    Boolean existsByName(String name);
 }

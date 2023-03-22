@@ -9,6 +9,7 @@ import peaksoft.dto.response.SimpleResponse;
 import peaksoft.dto.response.SubcategoryResponse;
 import peaksoft.entity.Category;
 import peaksoft.entity.Subcategory;
+import peaksoft.repository.CategoryRepository;
 import peaksoft.repository.SubcategoryRepository;
 import peaksoft.serivice.CategoryService;
 import peaksoft.serivice.SubcategoryService;
@@ -21,16 +22,17 @@ import java.util.Set;
 
 public class SubcategoryServiceImpl implements SubcategoryService {
     private final SubcategoryRepository subcategoryRepository;
-    private final CategoryService categoryService;
+    private final CategoryRepository categoryRepository;
 
 
     @Override
     public SimpleResponse saveSubcategory(SubcategoryRequest subcategoryRequest) {
         Subcategory subcategory = new Subcategory();
         subcategory.setName(subcategoryRequest.name());
-        Category category = new Category();
-        category.setName(subcategoryRequest.name());
-        subcategory.setCategory(category);
+        subcategory.setCategory(categoryRepository.findById(subcategoryRequest.id()).orElseThrow(()-> {
+            throw new NoSuchElementException("Category with id - " + subcategoryRequest.id() + " is not found!");
+        }));
+
         subcategoryRepository.save(subcategory);
         return new SimpleResponse(HttpStatus.OK, "Successfully saved!");
     }
@@ -50,9 +52,9 @@ public class SubcategoryServiceImpl implements SubcategoryService {
     public SimpleResponse updateSubcategory(Long id, SubcategoryRequest subcategoryRequest) {
         Subcategory subcategory = subcategoryRepository.findById(id).orElseThrow(()->new NoSuchElementException("This id:"+id+" does not exist"));
         subcategory.setName(subcategoryRequest.name());
-        Category category = new Category();
-        category.setName(subcategoryRequest.name());
-        subcategory.setCategory(category);
+        subcategory.setCategory(categoryRepository.findById(subcategoryRequest.id()).orElseThrow(()-> {
+            throw new NoSuchElementException("Category with id - " + subcategoryRequest.id() + " is not found!");
+        }));
         subcategoryRepository.save(subcategory);
         return new SimpleResponse(HttpStatus.OK, "Successfully updated!!");
     }

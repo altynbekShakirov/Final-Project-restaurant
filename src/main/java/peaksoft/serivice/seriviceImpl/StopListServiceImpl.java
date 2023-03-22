@@ -25,8 +25,9 @@ public class StopListServiceImpl implements StopListService {
     @Override
     public SimpleResponse saveStopList(Long id, StopListRequest stopListRequest) {
         if(stopListRepository.counts(stopListRequest.date(),menuItemRepository.findById(id).orElseThrow().getName())>0){
-            throw new RuntimeException("has already");
+            throw new RuntimeException("Has already!!!");
         }
+
         StopList stopList = new StopList();
         stopList.setDate(stopListRequest.date());
         stopList.setReason(stopListRequest.reason());
