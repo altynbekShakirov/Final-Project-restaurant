@@ -1,11 +1,6 @@
 package peaksoft.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,37 +20,27 @@ import java.util.Set;
 @Table(name = "users")
 
 public class User
-        implements UserDetails
-{
+        implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq")
+    @SequenceGenerator(name = "user_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
-//    @NotBlank
 
+    @Column(name = "first_name")
     private String firstName;
-//    @NotBlank
+    @Column(name = "last_name")
+
     private String lastName;
-//    @NotBlank
+
     private LocalDate dateOfBirth;
-
-//    @Email
-//    @Column(unique = true)
+    @Column(unique = true)
     private String email;
-//    @NotBlank
-//    @Size(min = 4)
     private String password;
-
-//    @NotBlank
-//    @Pattern(regexp = "^\\+996\\d{9} $", message = "The phone number must be 12 digits long and start with +996 !!!")
+    @Column(name = "phone_number", unique = true)
     private String phoneNumber;
-//    @NotBlank
-//    @Enumerated(EnumType.STRING)
     private Role role;
-//    @NotBlank
     private int experience;
-
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;

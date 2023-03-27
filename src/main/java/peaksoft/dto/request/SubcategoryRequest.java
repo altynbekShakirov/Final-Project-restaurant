@@ -1,8 +1,12 @@
 package peaksoft.dto.request;
 
-public record SubcategoryRequest(
+import jakarta.validation.constraints.NotEmpty;
 
-        Long id,
-        String name
+public record SubcategoryRequest(
+        @NotEmpty(message = " Name must not be empty!")
+
+        String name,
+        @NotEmpty(message = " Category name must not be empty!")
+        String categoryName
 ) {
 }

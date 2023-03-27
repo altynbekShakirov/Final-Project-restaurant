@@ -15,9 +15,10 @@ import java.util.Set;
 public class Cheque {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "cheque_seq")
-    @SequenceGenerator(name = "cheque_seq")
+    @SequenceGenerator(name = "cheque_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
+
     private int priceAverage;
     private LocalDate createAt;
 
@@ -26,7 +27,7 @@ public class Cheque {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH},fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable(name = "cheques_menu_items",
             joinColumns = @JoinColumn(name = "cheque_id"),
             inverseJoinColumns = @JoinColumn(name = "menu_items_id"))

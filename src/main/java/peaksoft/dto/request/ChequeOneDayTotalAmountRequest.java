@@ -1,18 +1,17 @@
 package peaksoft.dto.request;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
 import java.time.LocalDate;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ChequeOneDayTotalAmountRequest {
-    private Long walterId;
-    private LocalDate date;
+@Builder
+public record ChequeOneDayTotalAmountRequest(
+        @NotNull
+        Long waiterId,
+        @NotNull
+        LocalDate date
+) {
+
 }

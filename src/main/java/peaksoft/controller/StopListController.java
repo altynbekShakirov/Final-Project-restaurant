@@ -1,12 +1,13 @@
 package peaksoft.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.dto.request.StopListRequest;
-import peaksoft.dto.request.StopListUpdateRequest;
 import peaksoft.dto.response.SimpleResponse;
 import peaksoft.dto.response.StopListResponse;
+import peaksoft.dto.response.pageResponse.PageStopListResponse;
 import peaksoft.serivice.StopListService;
 
 import java.util.Set;
@@ -17,10 +18,10 @@ import java.util.Set;
 public class StopListController {
     private final StopListService service;
 
-    @PostMapping("/{id}")
+    @PostMapping()
     @PreAuthorize("hasAnyAuthority('ADMIN','CHEF')")
-    public SimpleResponse saveStopList(@PathVariable Long id, @RequestBody StopListRequest stopListRequest) {
-        return service.saveStopList(id, stopListRequest);
+    public SimpleResponse saveStopList( @RequestBody @Valid StopListRequest stopListRequest) {
+        return service.saveStopList( stopListRequest);
     }
 
     @GetMapping("/{id}")
@@ -37,12 +38,17 @@ public class StopListController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CHEF')")
-    public SimpleResponse updateStopList(@PathVariable Long id, @RequestBody StopListUpdateRequest stopListUpdateRequest) {
-        return service.update(id, stopListUpdateRequest);
+    public SimpleResponse updateStopList(@PathVariable Long id, @RequestBody @Valid StopListRequest stopListRequest) {
+        return service.update(id, stopListRequest);
     }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','CHEF')")
-    public  SimpleResponse deleteStopList(@PathVariable Long id){
+    public SimpleResponse deleteStopList(@PathVariable @Valid Long id) {
         return service.delete(id);
+    }
+    @GetMapping("/page")
+    public PageStopListResponse getStopListResponse(@RequestParam int page, @RequestParam int size){
+        return service.getStopListPage(page,size);
     }
 }

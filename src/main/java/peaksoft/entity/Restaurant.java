@@ -1,7 +1,6 @@
 package peaksoft.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,16 +11,16 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "restaurants")
+
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "restaurant_seq")
-    @SequenceGenerator(name = "restaurant_seq")
+    @SequenceGenerator(name = "restaurant_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
     private String name;
     private String location;
     private String restType;
-
     private int numberOfEmployees;
     private int service;
 

@@ -1,6 +1,7 @@
 package peaksoft.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,13 +16,12 @@ import java.util.Set;
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "category_seq")
-    @SequenceGenerator(name = "category_seq")
+    @SequenceGenerator(name = "category_seq", allocationSize = 1)
     @Column(name = "id", nullable = false)
     private Long id;
+    @NotBlank(message = "Category name must not be empty!")
     private String name;
-
-
-    @OneToMany(mappedBy = "category", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Subcategory> subcategories = new LinkedHashSet<>();
 
 }

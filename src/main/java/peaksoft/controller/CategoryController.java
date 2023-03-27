@@ -1,11 +1,14 @@
 package peaksoft.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import peaksoft.dto.request.CategoryRequest;
 import peaksoft.dto.response.CategoryResponse;
 import peaksoft.dto.response.SimpleResponse;
+import peaksoft.dto.response.pageResponse.PageCategoryResponse;
+import peaksoft.exception.AlreadyExistException;
 import peaksoft.serivice.CategoryService;
 
 import java.util.Set;
@@ -19,28 +22,36 @@ public class CategoryController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('ADMIN')")
-    public SimpleResponse saveCategory(@RequestBody CategoryRequest categoryRequest){
+    public SimpleResponse saveCategory(@RequestBody @Valid CategoryRequest categoryRequest) throws AlreadyExistException {
         return categoryService.saveCategory(categoryRequest);
     }
+
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ADMIN','WAITER','CHEF')")
-    public CategoryResponse getById(@PathVariable Long id){
+    public CategoryResponse getById(@PathVariable Long id) {
         return categoryService.getByCategoryId(id);
     }
+
     @GetMapping
     @PreAuthorize("hasAnyAuthority('ADMIN','WAITER','CHEF')")
-    public Set<CategoryResponse> getAllCategory(){
+    public Set<CategoryResponse> getAllCategory() {
         return categoryService.getAllCategories();
     }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public SimpleResponse updateCategory(@PathVariable Long id,@RequestBody CategoryRequest categoryRequest){
-        return categoryService.updateCategory(id,categoryRequest);
+    public SimpleResponse updateCategory(@PathVariable Long id, @RequestBody @Valid CategoryRequest categoryRequest) throws AlreadyExistException {
+        return categoryService.updateCategory(id, categoryRequest);
     }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public SimpleResponse deleteCategory(@PathVariable Long id){
+    public SimpleResponse deleteCategory(@PathVariable Long id) {
         return categoryService.deleteCategory(id);
     }
 
+    @GetMapping("/page")
+    public PageCategoryResponse getCategoryResponse(@RequestParam int page,@RequestParam int size){
+        return categoryService.getPageCategory(page,size);
+    }
 }

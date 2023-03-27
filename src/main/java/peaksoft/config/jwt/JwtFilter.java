@@ -37,15 +37,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
         if (userHeader != null && userHeader.startsWith("Bearer ")) {
             String jwt = userHeader.substring(7);
-            if (jwt.isBlank()){
+            if (jwt.isBlank()) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                         "Invalid JWT Token In Bearer Header");
-            }
-            else {
+            } else {
                 try {
                     String userName = jwtUtil.validateTokenAndRetrieveClaim(jwt);
 
-                    User user =userRepository.findByEmail(userName).orElseThrow(() -> new UsernameNotFoundException(userName + " is not found!"));
+                    User user = userRepository.findByEmail(userName).orElseThrow(() -> new UsernameNotFoundException(userName + " is not found!"));
 
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(
@@ -53,15 +52,15 @@ public class JwtFilter extends OncePerRequestFilter {
                                     user.getPassword(),
                                     user.getAuthorities());
 
-                    if (SecurityContextHolder.getContext().getAuthentication() == null){
+                    if (SecurityContextHolder.getContext().getAuthentication() == null) {
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     }
-                }catch (JWTVerificationException e ){
+                } catch (JWTVerificationException e) {
                     response.sendError(HttpServletResponse.SC_BAD_REQUEST,
                             "Invalid JWT Token");
                 }
             }
         }
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }

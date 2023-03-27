@@ -2,7 +2,6 @@ package peaksoft.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import peaksoft.dto.request.ChequeRequest;
 import peaksoft.dto.response.ChequeResponse;
 import peaksoft.entity.Cheque;
 

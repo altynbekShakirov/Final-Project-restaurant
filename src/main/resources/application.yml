@@ -11,11 +11,14 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
 
   jwt:
     secret_key: altynbek
-debug:
-  true
+#debug:
+#  true
+logging:
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){red} %clr(---){yellow} %clr([%15.15t]){grey} %clr(:){blue} %clr(%m){blue}%n"

@@ -18,16 +18,16 @@ public class JwtUtil {
     @Value("${spring.jwt.secret_key}")
     private String SECRET_KEY;
 
-    public String generateToken(UserDetails userDetails){
+    public String generateToken(UserDetails userDetails) {
         return JWT.create()
-                .withClaim("username",userDetails.getUsername())
+                .withClaim("username", userDetails.getUsername())
                 .withIssuedAt(new Date())
                 .withExpiresAt(Date.from(ZonedDateTime.now().plusMinutes(240000).toInstant()))
                 .sign(Algorithm.HMAC256(SECRET_KEY));
     }
 
 
-    public String validateTokenAndRetrieveClaim(String token){
+    public String validateTokenAndRetrieveClaim(String token) {
         JWTVerifier verifier = JWT
                 .require(Algorithm.HMAC256(SECRET_KEY))
                 .build();
